@@ -1,0 +1,121 @@
+import java.util.Random;
+import java.util.Scanner;
+
+public class NumberGuessingGame {
+
+    public static void main(String[] args) {
+        final int MIN = 1;
+        final int MAX = 100;
+        final int MAX_ATTEMPTS = 7;
+
+        Scanner scanner = new Scanner(System.in);
+        Random random = new Random();
+        int score = 0;
+        int rounds = 0;
+        String playAgain;
+
+        System.out.println("🎯 Welcome to the Number Guessing Game!");
+
+        do {
+            int secretNumber = random.nextInt(MAX - MIN + 1) + MIN;
+            int attemptsLeft = MAX_ATTEMPTS;
+            boolean guessedCorrectly = false;
+
+            System.out.println("\n🔁 New Round! Guess the number between " + MIN + " and " + MAX);
+            System.out.println("You have " + MAX_ATTEMPTS + " attempts.");
+
+            while (attemptsLeft > 0) {
+                System.out.print("Enter your guess: ");
+
+                if (!scanner.hasNextInt()) {
+                    System.out.println("❌ Please enter a valid number.");
+                    scanner.next(); // Clear invalid input
+                    continue;
+                }
+
+                int guess = scanner.nextInt();
+
+                if (guess < MIN || guess > MAX) {
+                    System.out.println("⛔ Guess out of range. Try a number between " + MIN + " and " + MAX);
+                    continue;
+                }
+
+                attemptsLeft--;
+
+                if (guess == secretNumber) {
+                    System.out.println("✅ Correct! The number was " + secretNumber + ".");
+                    guessedCorrectly = true;
+                    score++;
+                    break;
+                } else if (guess < secretNumber) {
+                    System.out.println("📉 Too low.");
+                } else {
+                    System.out.println("📈 Too high.");
+                }
+
+                if (attemptsLeft > 0) {
+                    System.out.println("🔄 Attempts left: " + attemptsLeft);
+                } else {
+                    System.out.println("❌ No attempts left. The number was " + secretNumber + ".");
+                }
+            }
+
+            rounds++;
+            System.out.println("🎮 Score: " + score + " / " + rounds);
+
+            System.out.print("Do you want to play another round? (y/n): ");
+            playAgain = scanner.next();
+
+        } while (playAgain.equalsIgnoreCase("y"));
+
+        System.out.println("\n🏁 Game Over! Final Score: " + score + " / " + rounds);
+        System.out.println("Thanks for playing!");
+
+        scanner.close();
+    }
+}
+
+
+
+output:
+
+🎯 Welcome to the Number Guessing Game!
+
+🔁 New Round! Guess the number between 1 and 100
+You have 7 attempts.
+Enter your guess: 50
+📉 Too low.
+🔄 Attempts left: 6
+Enter your guess: 75
+📈 Too high.
+🔄 Attempts left: 5
+Enter your guess: 63
+📉 Too low.
+🔄 Attempts left: 4
+Enter your guess: 69
+✅ Correct! The number was 69.
+🎮 Score: 1 / 1
+Do you want to play another round? (y/n): y
+
+🔁 New Round! Guess the number between 1 and 100
+You have 7 attempts.
+Enter your guess: 60
+📉 Too low.
+🔄 Attempts left: 6
+Enter your guess: 90
+📈 Too high.
+🔄 Attempts left: 5
+Enter your guess: 75
+📈 Too high.
+🔄 Attempts left: 4
+Enter your guess: 65
+📉 Too low.
+🔄 Attempts left: 3
+Enter your guess: 70
+✅ Correct! The number was 70.
+🎮 Score: 2 / 2
+Do you want to play another round? (y/n): n
+
+🏁 Game Over! Final Score: 2 / 2
+Thanks for playing!
+
